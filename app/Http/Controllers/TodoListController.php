@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 class TodoListController extends Controller
 {
     public function index () {
-        $listItems = ListItem::where('is_complete', 0)->get();
-        return view('welcome', compact($listItems));
+        $listItems = ListItem::on()->where('is_complete', 0)->get();
+        return view('welcome', compact('listItems'));
     }
 
     public function markComplete (ListItem $listItem)
