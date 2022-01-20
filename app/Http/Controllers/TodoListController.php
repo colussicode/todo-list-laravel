@@ -8,14 +8,15 @@ use Illuminate\Http\Request;
 class TodoListController extends Controller
 {
     public function index () {
-        return view('welcome', ['listItems' => ListItem::where('is_complete', 0)->get()]);
+        $listItems = ListItem::where('is_complete', 0)->get();
+        return view('welcome', compact($listItems));
     }
 
-    public function markComplete ($id)
+    public function markComplete (ListItem $listItem)
     {
-        $newListItem = ListItem::find($id);
-        $newListItem->is_complete = 1;
-        $newListItem->save();
+        $listItem->is_complete = 1;
+        $listItem->save();
+
         return redirect('/');
     }
 
@@ -23,7 +24,6 @@ class TodoListController extends Controller
     {
         $newListItem = new ListItem;
         $newListItem->name = $request->listItem;
-        $newListItem->is_complete = 0;
         $newListItem->save();
 
         return redirect('/');
